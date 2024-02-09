@@ -30,14 +30,15 @@ public class UpdateServlet extends HttpServlet {
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String _token = request.getParameter("_token");
-        if(_token != null && _token.equals(request.getSession().getId())) {
+        if (_token != null && _token.equals(request.getSession().getId())) {
             EntityManager em = DBUtil.createEntityManager();
 
             // セッションスコープからメッセージのIDを取得して
             // 該当のIDのメッセージ1件のみをデータベースから取得
-            tasks t = em.find(tasks.class, (Integer)(request.getSession().getAttribute("tasks_id")));
+            tasks t = em.find(tasks.class, (Integer) (request.getSession().getAttribute("tasks_id")));
 
             // フォームの内容を各フィールドに上書き
 
@@ -45,7 +46,7 @@ public class UpdateServlet extends HttpServlet {
             t.setContent(content);
 
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            t.setUpdated_at(currentTime);       // 更新日時のみ上書き
+            t.setUpdated_at(currentTime); // 更新日時のみ上書き
 
             // データベースを更新
             em.getTransaction().begin();
